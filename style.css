@@ -1,0 +1,285 @@
+ body {
+     font-family: 'Cairo', sans-serif;
+     margin: 0;
+     padding: 0;
+     box-sizing: border-box;
+ }
+
+ .invoice {
+     width: 100%;
+     max-width: 1200px;
+     margin: 20px auto;
+     border: 1px solid #000;
+     padding: 20px;
+ }
+
+ .section {
+     margin-bottom: 20px;
+     padding: 10px;
+     border: 1px solid #ccc;
+     border-radius: 12px;
+     width: 95%;
+     /* تعديل العرض */
+     margin-left: auto;
+     /* توسيط */
+     margin-right: auto;
+     /* توسيط */
+ }
+
+ .header {
+     display: flex;
+     justify-content: space-between;
+     align-items: center;
+ }
+
+ .header .logo {
+     width: 150px;
+ }
+
+ .header .center {
+     font-size: 24px;
+     font-weight: bold;
+     text-align: center;
+     flex-grow: 1;
+     font-family: cairo;
+ }
+
+ .header .invoice-number {
+     font-size: 18px;
+     font-weight: bold;
+ }
+
+ .search-section {
+     text-align: right;
+     margin-top: 20px;
+     margin-bottom: 20px;
+ }
+
+ .search-section input {
+     padding: 5px;
+     margin-right: 10px;
+     border: 1px solid #ccc;
+     border-radius: 5px;
+ }
+
+ .search-section button {
+     padding: 5px 10px;
+     background-color: #007BFF;
+     color: #fff;
+     border: none;
+     border-radius: 5px;
+     cursor: pointer;
+ }
+
+ .search-section button:hover {
+     background-color: #0056b3;
+ }
+
+
+
+
+ .table {
+     width: 100%;
+     border-collapse: collapse;
+ }
+
+ .table th,
+ .table td {
+     border: 1px solid #000;
+     padding: 8px;
+     text-align: center;
+ }
+
+ .table th {
+     background-color: #f4f4f4;
+ }
+
+
+
+ .footer {
+     display: flex;
+     justify-content: space-between;
+     align-items: center;
+     margin-top: 20px;
+ }
+
+
+ p {
+     text-align: center;
+     font-size: 15px;
+ }
+
+
+ .client-info {
+     display: flex;
+     justify-content: space-between;
+     flex-wrap: wrap;
+ }
+
+ .client-info .sub-section {
+     width: 32%;
+     padding: 10px;
+
+     box-sizing: border-box;
+ }
+
+ .client-info .full-width {
+     width: 35%;
+ }
+
+ .client-info .barcode {
+     width: 30%;
+     text-align: center;
+     border: 1px solid #ccc;
+     height: 350px;
+     border-radius: 12px;
+ }
+
+ .client-info label {
+     display: inline-block;
+     margin-bottom: 5px;
+     font-weight: bold;
+     width: 100%;
+ }
+
+ .client-info input {
+     display: inline-block;
+     width: 100%;
+     padding: 5px;
+     margin-bottom: 10px;
+     border: 1px solid #ccc;
+     border-radius: 12px;
+     box-sizing: border-box;
+ }
+
+ .barcode img {
+     display: block;
+     margin: 0 auto;
+     max-width: 100%;
+ }
+
+ #section-six {
+     width: 82.5%;
+     /* عرض أصغر ليبقى ضمن الإطار */
+     margin: 0 auto;
+     /* توسيط داخل الإطار */
+     box-sizing: border-box;
+     /* التأكد من أن الحواف لا تتسبب في تجاوز العرض */
+     border: 0px solid #ccc;
+ }
+
+ #section-seven {
+     display: flex;
+     /* لجعل الأقسام متجاورة */
+     justify-content: space-between;
+     /* توزيع المساحة بين القسمين */
+     flex-wrap: wrap;
+     /* لجعل الأقسام تتكدس إذا كانت المساحة غير كافية */
+     gap: 20px;
+     /* مسافة بين القسمين */
+     width: 80.5%;
+     border: 1px solid #0c0000;
+ }
+
+ #section-seven .sub-section {
+     width: 48%;
+     /* عرض كل قسم بنسبة متساوية */
+     padding: 10px;
+     /* تحسين التباعد الداخلي */
+     border: 1px solid #ccc;
+     /* إضافة حواف لتحسين الشكل */
+     border-radius: 12px;
+     /* زوايا دائرية */
+     box-sizing: border-box;
+     /* التأكد من أن الحواف جزء من العرض */
+ }
+
+ #section-seven #receipt-text {
+     text-align: justify;
+     /* محاذاة النص ليبدو أكثر تنظيمًا */
+ }
+
+ #section-seven #payment-info input {
+     width: 100%;
+     /* جعل المدخلات تأخذ العرض الكامل */
+     margin-bottom: 10px;
+     /* مسافة بين المدخلات */
+     padding: 5px;
+     /* تحسين التباعد الداخلي */
+     border: 1px solid #ccc;
+     border-radius: 5px;
+     box-sizing: border-box;
+ }
+
+ #payment-info .form-row {
+     display: flex;
+     /* استخدام Flexbox لجعل الحقول بجانب النصوص */
+     align-items: center;
+     /* محاذاة العناصر عموديًا */
+     margin-bottom: 10px;
+     /* مسافة بين كل صف */
+ }
+
+ #payment-info label {
+     width: 30%;
+     /* تخصيص عرض ثابت للتسميات */
+     font-weight: bold;
+     /* جعل النص عريضًا */
+ }
+
+ #payment-info input {
+     width: 70%;
+     /* الحقول تشغل المساحة المتبقية */
+     padding: 5px;
+     border: 1px solid #ccc;
+     border-radius: 5px;
+     box-sizing: border-box;
+ }
+
+ #discountPercent {
+     width: 30%;
+     /* حجم صغير للنسبة */
+     margin-right: 5px;
+ }
+
+ #discountValue,
+ #amountDue {
+     width: 65%;
+     /* حجم مناسب للقيمة */
+     background-color: #f9f9f9;
+     /* لون للخانات القابلة للقراءة فقط */
+     font-weight: bold;
+     /* إبراز النص */
+ }
+
+ /* الازرار الجانبية */
+ #action-buttons button {
+     padding: 10px 20px;
+     margin: 5px;
+     font-size: 16px;
+     color: #fff;
+     background-color: #007BFF;
+     border: none;
+     border-radius: 5px;
+     cursor: pointer;
+ }
+
+ #action-buttons button:hover {
+     background-color: #0056b3;
+ }
+
+ .button-bak {
+     display: inline-block;
+     padding: 6px 18px;
+     font-size: 16px;
+     color: #fff;
+     text-decoration: none;
+     background-color: #007BFF;
+     border-radius: 5px;
+     transition: background-color 0.3s, transform 0.2s;
+ }
+
+ .button-bak:hover {
+     background-color: #0056b3;
+     transform: scale(1.05);
+ }

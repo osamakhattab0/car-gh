@@ -1,0 +1,363 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>عرض العملاء</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;600&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <style>
+        body {
+            font-family: 'Cairo', sans-serif;
+            margin: 0;
+            padding: 20px;
+            background-color: #f9f9f9;
+        }
+    
+        h1 {
+            color: #007BFF;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+    
+        #searchInput {
+            width: 100%;
+            max-width: 400px;
+            margin: 0 auto 20px auto;
+            display: block;
+            padding: 10px;
+            font-size: 16px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+    
+        table {
+            width: 100%;
+            max-width: 900px;
+            margin: 0 auto;
+            border-collapse: collapse;
+            background-color: #fff;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            border-radius: 10px;
+            overflow: hidden;
+        }
+    
+        th,
+        td {
+            padding: 10px;
+            text-align: center;
+            border-bottom: 1px solid #ddd;
+        }
+    
+        th {
+            background-color: #007BFF;
+            color: white;
+        }
+    
+        tr:hover {
+            background-color: #f1f1f1;
+        }
+    
+        .action-buttons button {
+            margin: 5px;
+            padding: 5px 10px;
+            font-size: 14px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+    
+        .edit-btn {
+            background-color: #ffc107;
+            color: #fff;
+        }
+    
+        .delete-btn {
+            background-color: #dc3545;
+            color: #fff;
+        }
+    
+        #editModal {
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: #fff;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+            z-index: 1000;
+            width: 400px;
+        }
+    
+        #editModal input {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+    
+        #editModal button {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-top: 10px;
+        }
+    
+        #editModal .save-btn {
+            background: #007BFF;
+            color: #fff;
+        }
+    
+        #editModal .cancel-btn {
+            background: #dc3545;
+            color: #fff;
+        }
+    
+        .back-link {
+            display: inline-block;
+            margin-top: 20px;
+            color: #007BFF;
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+    
+        .back-link:hover {
+            color: #0056b3;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>عرض العملاء</h1>
+
+    <!-- حقل البحث برقم الشاسيه -->
+    <div style="text-align: center; margin-bottom: 20px;">
+        <input type="text" id="searchChassisNumber" placeholder="ابحث برقم الشاسيه">
+        <button type="button" onclick="searchByChassisNumber()">بحث</button>
+    </div>
+
+    <!-- حقل البحث بالاسم -->
+    <input type="text" id="searchInput" placeholder="ابحث عن عميل..." onkeyup="filterClients()">
+
+    <table id="clientsTable">
+        <thead>
+            <tr>
+                <th>اسم العميل</th>
+                <th>رقم الهاتف</th>
+                <th>العنوان</th>
+                <th>نوع السيارة</th>
+                <th>رقم الشاسيه</th>
+                <th>كود العميل</th>
+                <th>رصيد تحت الحساب</th>
+                <th>إجراءات</th>
+            </tr>
+        </thead>
+        <tbody>
+            <!-- سيتم ملء البيانات هنا عبر JavaScript -->
+        </tbody>
+    </table>
+
+    <!-- نافذة التعديل -->
+    <div id="editModal">
+        <h3>تعديل بيانات العميل</h3>
+        <form id="editClientForm">
+            <input type="text" id="editClientName" placeholder="اسم العميل" required>
+            <input type="text" id="editClientPhone" placeholder="رقم الهاتف" required>
+            <input type="text" id="editClientAddress" placeholder="العنوان" required>
+            <input type="text" id="editCarType" placeholder="نوع السيارة" required>
+            <input type="text" id="editChassisNumber" placeholder="رقم الشاسيه" required>
+            <input type="text" id="editClientCode" placeholder="كود العميل" required>
+            <input type="number" id="editUnderAccount" placeholder="رصيد تحت الحساب" required>
+            <button type="button" class="save-btn" onclick="saveClientEdits()">حفظ التعديلات</button>
+            <button type="button" class="cancel-btn" onclick="closeEditModal()">إلغاء</button>
+        </form>
+    </div>
+
+    <a href="clients.html" class="back-link">الرجوع إلى إدارة العملاء</a>
+
+    <script>
+        let currentEditId = null; // لتحديد العميل الحالي أثناء التعديل
+
+        // جلب البيانات من الخادم
+        function fetchClients() {
+            fetch('http://localhost:3000/clients')
+                .then((response) => response.json())
+                .then((clients) => {
+                    const tableBody = document.querySelector('#clientsTable tbody');
+                    tableBody.innerHTML = '';
+                    clients.forEach((client) => {
+                        const row = document.createElement('tr');
+                        row.innerHTML = `
+                            <td>${client.clientName}</td>
+                            <td>${client.clientPhone}</td>
+                            <td>${client.clientAddress}</td>
+                            <td>${client.carType}</td>
+                            <td>${client.chassisNumber}</td>
+                            <td>${client.clientCode}</td>
+                            <td>${client.underAccount}</td>
+                            <td class="action-buttons">
+                                <button class="edit-btn" onclick="editClient(${client.id})">تعديل</button>
+                                <button class="delete-btn" onclick="deleteClient(${client.id})">حذف</button>
+                            </td>
+                        `;
+                        tableBody.appendChild(row);
+                    });
+                })
+                .catch((error) => console.error('Error:', error));
+        }
+
+        // البحث عن العملاء بالاسم
+        function filterClients() {
+            const searchTerm = document.getElementById('searchInput').value.toLowerCase();
+            const rows = document.querySelectorAll('#clientsTable tbody tr');
+            rows.forEach((row) => {
+                const clientName = row.children[0].textContent.toLowerCase();
+                row.style.display = clientName.includes(searchTerm) ? '' : 'none';
+            });
+        }
+
+        // البحث عن العملاء برقم الشاسيه
+        function searchByChassisNumber() {
+            const chassisNumber = document.getElementById('searchChassisNumber').value;
+
+            if (!chassisNumber) {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'خطأ',
+                    text: 'يرجى إدخال رقم الشاسيه للبحث.',
+                    confirmButtonText: 'حسنًا'
+                });
+                return;
+            }
+
+            fetch(`http://localhost:3000/clients/chassis/${chassisNumber}`)
+                .then((response) => {
+                    if (!response.ok) {
+                        throw new Error('العميل غير موجود.');
+                    }
+                    return response.json();
+                })
+                .then((client) => {
+                    const tableBody = document.querySelector('#clientsTable tbody');
+                    tableBody.innerHTML = '';
+
+                    const row = document.createElement('tr');
+                    row.innerHTML = `
+                        <td>${client.clientName}</td>
+                        <td>${client.clientPhone}</td>
+                        <td>${client.clientAddress}</td>
+                        <td>${client.carType}</td>
+                        <td>${client.chassisNumber}</td>
+                        <td>${client.clientCode}</td>
+                        <td>${client.underAccount}</td>
+                        <td class="action-buttons">
+                            <button class="edit-btn" onclick="editClient(${client.id})">تعديل</button>
+                            <button class="delete-btn" onclick="deleteClient(${client.id})">حذف</button>
+                        </td>
+                    `;
+                    tableBody.appendChild(row);
+                })
+                .catch((error) => {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'خطأ',
+                        text: error.message,
+                        confirmButtonText: 'حسنًا'
+                    });
+                });
+        }
+
+        // فتح نافذة التعديل
+        function editClient(id) {
+            currentEditId = id;
+            fetch(`http://localhost:3000/clients/${id}`)
+                .then((response) => response.json())
+                .then((client) => {
+                    document.getElementById('editClientName').value = client.clientName;
+                    document.getElementById('editClientPhone').value = client.clientPhone;
+                    document.getElementById('editClientAddress').value = client.clientAddress;
+                    document.getElementById('editCarType').value = client.carType;
+                    document.getElementById('editChassisNumber').value = client.chassisNumber;
+                    document.getElementById('editClientCode').value = client.clientCode;
+                    document.getElementById('editUnderAccount').value = client.underAccount;
+                    document.getElementById('editModal').style.display = 'block';
+                });
+        }
+
+        // إغلاق نافذة التعديل
+        function closeEditModal() {
+            document.getElementById('editModal').style.display = 'none';
+        }
+
+        // حفظ التعديلات
+        function saveClientEdits() {
+            const clientData = {
+                clientName: document.getElementById('editClientName').value,
+                clientPhone: document.getElementById('editClientPhone').value,
+                clientAddress: document.getElementById('editClientAddress').value,
+                carType: document.getElementById('editCarType').value,
+                chassisNumber: document.getElementById('editChassisNumber').value,
+                clientCode: document.getElementById('editClientCode').value,
+                underAccount: document.getElementById('editUnderAccount').value,
+            };
+
+            fetch(`http://localhost:3000/clients/${currentEditId}`, {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(clientData),
+            })
+                .then((response) => response.json())
+                .then((data) => {
+                    Swal.fire({
+                        icon: 'success',
+                        title: 'تم الحفظ!',
+                        text: data.message,
+                    });
+                    closeEditModal();
+                    fetchClients();
+                })
+                .catch((error) => {
+                    console.error('Error:', error);
+                });
+        }
+
+        // حذف عميل
+        function deleteClient(id) {
+            Swal.fire({
+                title: 'هل أنت متأكد؟',
+                text: 'لن تتمكن من التراجع عن هذا!',
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#d33',
+                cancelButtonColor: '#3085d6',
+                confirmButtonText: 'نعم، احذفه!',
+                cancelButtonText: 'إلغاء'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    fetch(`http://localhost:3000/clients/${id}`, {
+                        method: 'DELETE',
+                    })
+                        .then((response) => response.json())
+                        .then((data) => {
+                            Swal.fire('تم الحذف!', data.message, 'success');
+                            fetchClients();
+                        })
+                        .catch((error) => console.error('Error:', error));
+                }
+            });
+        }
+
+        // جلب العملاء عند تحميل الصفحة
+        fetchClients();
+    </script>
+
+</body>
+
+</html>

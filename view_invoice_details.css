@@ -1,0 +1,439 @@
+    body {
+        font-family: 'Cairo', sans-serif;
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+    }
+
+    .invoice {
+        width: 100%;
+        max-width: 1224px;
+        margin: 45px 34px;
+        border: 1px solid #000;
+        padding: 20px;
+    }
+
+    .section {
+        margin-bottom: 20px;
+        padding: 10px;
+        border: 1px solid #ccc;
+        border-radius: 12px;
+        width: 95%;
+        /* تعديل العرض */
+        margin-left: auto;
+        /* توسيط */
+        margin-right: auto;
+        /* توسيط */
+        margin-top: 20px;
+    }
+
+    .header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        width: 95%;
+    }
+
+    .header .logo {
+        width: 150px;
+    }
+
+    .header .center {
+        font-size: 24px;
+        font-weight: bold;
+        text-align: center;
+        flex-grow: 1;
+        font-family: cairo;
+    }
+
+    .header .invoice-number {
+        font-size: 18px;
+        font-weight: bold;
+        margin: 0 47px;
+    }
+
+    .search-section {
+        text-align: center;
+        margin-top: 10px;
+        margin-bottom: 10px;
+        font-size: 17px;
+        font-weight: bold;
+    }
+
+    .search-section input {
+        padding: 5px;
+        margin-right: 10px;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        width: 95px;
+    }
+
+    .search-section button {
+        padding: 13px 19px;
+        background-color: #007BFF;
+        color: #fff;
+        border: none;
+        border-radius: 16px;
+        cursor: pointer;
+        margin-top: 6px;
+        margin-left: -9px;
+
+    }
+
+    .search-section button:hover {
+        background-color: #0056b3;
+    }
+
+    .table {
+        width: 100%;
+        border-collapse: collapse;
+    }
+
+    .table th,
+    .table td {
+        border: 1px solid #000;
+        padding: 8px;
+        text-align: center;
+    }
+
+    .table th {
+        background-color: #f4f4f4;
+    }
+
+
+
+    .footer {
+        display: flex;
+        align-items: center;
+        margin-top: 20px;
+        gap: 29%;
+
+    }
+
+
+    p {
+        text-align: center;
+        font-size: 15px;
+    }
+
+
+    .client-info {
+        display: flex;
+        justify-content: space-between;
+        flex-wrap: wrap;
+        width: 92%;
+        margin-right: 50px;
+    }
+
+    .client-info .sub-section {
+        width: 40%;
+        padding: 10px;
+
+        box-sizing: border-box;
+    }
+
+    .client-info .full-width {
+        width: 39%;
+    }
+
+    .client-info label {
+        display: inline-block;
+        margin-bottom: 5px;
+        font-weight: bold;
+        width: 100%;
+    }
+
+    .client-info input {
+        width: 210%;
+        padding: 8px;
+        font-size: 14px;
+        margin-bottom: 8px;
+        border: 1px solid #ccc;
+        border-radius: 8px;
+        box-sizing: border-box;
+        margin-left: 50px;
+    }
+
+    .barcode img {
+        display: block;
+        margin: 0 auto;
+        max-width: 100%;
+    }
+
+    #section-six {
+        width: 90.5%;
+        /* عرض أصغر ليبقى ضمن الإطار */
+        margin: 0px 36px;
+        /* توسيط داخل الإطار */
+        box-sizing: border-box;
+        /* التأكد من أن الحواف لا تتسبب في تجاوز العرض */
+        border: 0px solid #ffffff;
+    }
+
+    #section-seven {
+        display: flex;
+        /* لجعل الأقسام متجاورة */
+        justify-content: space-between;
+        /* توزيع المساحة بين القسمين */
+        flex-wrap: wrap;
+        /* لجعل الأقسام تتكدس إذا كانت المساحة غير كافية */
+        gap: 20px;
+        /* مسافة بين القسمين */
+        width: 88.5%;
+        border: 1px solid #0c0000;
+        margin-left: 80px;
+    }
+
+    #section-seven .sub-section {
+        width: 48%;
+        /* عرض كل قسم بنسبة متساوية */
+        padding: 10px;
+        /* تحسين التباعد الداخلي */
+        border: 1px solid #ccc;
+        /* إضافة حواف لتحسين الشكل */
+        border-radius: 12px;
+        /* زوايا دائرية */
+        box-sizing: border-box;
+        /* التأكد من أن الحواف جزء من العرض */
+    }
+
+    #section-seven #receipt-text {
+        text-align: justify;
+        /* محاذاة النص ليبدو أكثر تنظيمًا */
+    }
+
+    #section-seven #payment-info input {
+        width: 100%;
+        /* جعل المدخلات تأخذ العرض الكامل */
+        margin-bottom: 10px;
+        /* مسافة بين المدخلات */
+        padding: 5px;
+        /* تحسين التباعد الداخلي */
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        box-sizing: border-box;
+    }
+
+    #payment-info .form-row {
+        display: flex;
+        /* استخدام Flexbox لجعل الحقول بجانب النصوص */
+        align-items: center;
+        /* محاذاة العناصر عموديًا */
+        margin-bottom: 10px;
+        /* مسافة بين كل صف */
+    }
+
+    #payment-info label {
+        width: 30%;
+        /* تخصيص عرض ثابت للتسميات */
+        font-weight: bold;
+        /* جعل النص عريضًا */
+    }
+
+    #payment-info input {
+        width: 70%;
+        /* الحقول تشغل المساحة المتبقية */
+        padding: 5px;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        box-sizing: border-box;
+    }
+
+    #discountPercent {
+        width: 30%;
+        /* حجم صغير للنسبة */
+        margin-right: 5px;
+    }
+
+    .table td input[type="text"] {
+        width: 101%;
+        /* جعل الإدخال يأخذ عرض العمود */
+        padding: 8px;
+        /* تحسين المسافة الداخلية */
+        font-size: 16px;
+        /* تكبير حجم الخط */
+        box-sizing: border-box;
+        /* لضمان التوافق مع الحواف */
+    }
+
+    .table td input.quantity,
+    .table td input.price {
+        width: 100%;
+        /* تصغير عرض الإدخالات للكمية والسعر */
+        font-size: 14px;
+        /* ضبط حجم الخط */
+    }
+
+    .client-info .form-row {
+        display: flex;
+        /* ترتيب الحقول بشكل أفقي */
+        align-items: center;
+        /* محاذاة رأسية للعناصر */
+        margin-bottom: 10px;
+        /* مسافة بين كل صف */
+    }
+
+    .client-info .barcode {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        border: 1px solid #ccc;
+        padding: 10px;
+        border-radius: 22px;
+        height: 245px;
+        text-align: center;
+        margin: 0;
+        margin-left: 0px;
+        width: 236px;
+        margin-right: -50px;
+    }
+
+    .client-info .barcode img {
+        max-width: 100%;
+        /* تصغير الصورة إذا كانت كبيرة جدًا */
+        max-height: 100%;
+        /* ضمان عدم تجاوز الصورة حدود القسم */
+        display: block;
+        /* إزالة أي مسافة إضافية حول الصورة */
+    }
+
+
+
+    /* الحاوية الجانبية (الأزرار والبحث) */
+    .left-panel {
+        width: 13%;
+        /* تخصيص عرض الجانب الأيسر */
+        float: left;
+        /* وضع الحاوية على اليسار */
+        margin-left: 10px;
+        /* مسافة بين الحاوية ومحتوى الصفحة */
+        display: flex;
+        /* استخدام Flexbox */
+        flex-direction: column;
+        /* ترتيب العناصر بشكل عمودي */
+        align-items: center;
+        /* توسيط العناصر أفقيًا */
+        justify-content: center;
+        /* توسيط العناصر عموديًا */
+        height: 100vh;
+        /* جعل الحاوية تمتد على كامل ارتفاع الشاشة */
+
+    }
+
+
+
+    /* الأزرار */
+    .Control-buttons button,
+    .Control-buttons a {
+        display: block;
+        /* عرض الأزرار تحت بعضها */
+        width: 90%;
+        /* عرض الأزرار 90% من الحاوية */
+        height: 50px;
+        /* تحديد ارتفاع ثابت */
+        margin-bottom: 10px;
+        /* مسافة بين الأزرار */
+        font-size: 16px;
+        /* حجم النص */
+        color: #fff;
+        /* لون النص */
+        background-color: #007BFF;
+        /* لون الخلفية */
+        text-align: center;
+        /* محاذاة النص إلى المنتصف */
+        border: none;
+        /* إزالة الحواف */
+        border-radius: 5px;
+        /* زوايا مستديرة */
+        cursor: pointer;
+        /* مؤشر عند التحويم */
+        text-decoration: none;
+        /* إزالة خط الروابط */
+        line-height: 50px;
+        /* محاذاة النص عموديًا */
+        border-radius: 16px;
+    }
+
+    .Control-buttons button:hover,
+    .Control-buttons a:hover {
+        background-color: #0056b3;
+        /* لون أغمق عند التحويم */
+        transform: scale(1.05);
+    }
+
+    .Control-buttons {
+        margin-bottom: 20px;
+        padding: 10px;
+        border: 1px solid #ccc;
+        border-radius: 12px;
+        width: 76%;
+        margin-left: 0;
+        margin-right: 0;
+
+    }
+
+    .section2 {
+        display: flex;
+        justify-content: space-between;
+        margin-bottom: 20px;
+        padding: 10px;
+        border: 1px solid #fffefe;
+        border-radius: 12px;
+        width: 1141px;
+        margin-left: auto;
+        margin-right: 31px;
+        margin-top: 12px;
+        height: 45px;
+    }
+
+    .section2 .sub-section {
+        width: 45%;
+        padding: 10px;
+        border: 1px solid white;
+        border-radius: 12px;
+        box-sizing: border-box;
+        height: 55px;
+    }
+
+    .section2 .sub-section label {
+        display: block;
+        margin-bottom: 5px;
+        font-weight: bold;
+    }
+
+    .section2 .sub-section input {
+        width: 100%;
+        padding: 8px;
+        font-size: 16px;
+        margin-bottom: 8px;
+        border: 1px solid #ccc;
+        border-radius: 8px;
+        box-sizing: border-box;
+    }
+
+    .section2 .sub-section .form-row {
+        display: flex;
+        /* لجعل العناصر تظهر بجانب بعضها */
+        align-items: center;
+        /* محاذاة العناصر عموديًا */
+        margin-bottom: 10px;
+        /* مسافة بين الصفوف */
+    }
+
+    .section2 .sub-section .form-row label {
+        margin-right: 54px;
+        /* مسافة بين النص والحقل */
+        font-weight: bold;
+        width: auto;
+        /* عرض التسمية يتناسب مع النص */
+    }
+
+    .section2 .sub-section .form-row input {
+        width: 267px;
+        padding: 8px;
+        font-size: 16px;
+        border: 1px solid #ccc;
+        border-radius: 8px;
+        box-sizing: border-box;
+        margin-right: 27px
+    }

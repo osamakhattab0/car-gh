@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>إضافة عميل جديد</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;600&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Cairo', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f9f9f9;
+            color: #333;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        .form-container {
+            max-width: 500px;
+            width: 100%;
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            text-align: center;
+        }
+
+        h1 {
+            font-size: 24px;
+            margin-bottom: 20px;
+            color: #007BFF;
+        }
+
+        form {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        input,
+        button {
+            font-size: 16px;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            outline: none;
+        }
+
+        input:focus {
+            border-color: #007BFF;
+            box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
+        }
+
+        button {
+            background-color: #007BFF;
+            color: #fff;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        button:hover {
+            background-color: #0056b3;
+        }
+
+        .back-link {
+            display: inline-block;
+            margin-top: 20px;
+            color: #007BFF;
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+
+        .back-link:hover {
+            color: #0056b3;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="form-container">
+        <h1>إضافة عميل جديد</h1>
+        <form id="addClientForm">
+            <input type="text" id="clientName" placeholder="اسم العميل" required>
+            <input type="tel" id="clientPhone" placeholder="رقم الهاتف" required>
+            <input type="text" id="clientAddress" placeholder="العنوان" required>
+            <input type="text" id="carType" placeholder="نوع السيارة" required>
+            <input type="text" id="chassisNumber" placeholder="رقم الشاسيه" required>
+            <input type="text" id="clientCode" placeholder="كود العميل" required>
+            <input type="number" id="underAccount" placeholder="صيد تحت الحساب" required>
+            <button type="button" onclick="storeClientData()">إضافة العميل</button>
+        </form>
+        <a href="clients.html" class="back-link">الرجوع إلى إدارة العملاء</a>
+    </div>
+
+    <script>
+    function storeClientData() {
+        const clientName = document.getElementById('clientName').value;
+        const clientPhone = document.getElementById('clientPhone').value;
+        const clientAddress = document.getElementById('clientAddress').value;
+        const carType = document.getElementById('carType').value;
+        const chassisNumber = document.getElementById('chassisNumber').value;
+        const clientCode = document.getElementById('clientCode').value;
+        const underAccount = document.getElementById('underAccount').value;
+
+        const clientData = {
+            clientName,
+            clientPhone,
+            clientAddress,
+            carType,
+            chassisNumber,
+            clientCode,
+            underAccount
+        };
+
+        fetch('http://localhost:3000/clients', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(clientData),
+        })
+            .then((response) => {
+                if (!response.ok) {
+                    return response.json().then(data => {
+                        throw new Error(data.error || 'حدث خطأ أثناء إضافة العميل.');
+                    });
+                }
+                return response.json();
+            })
+            .then((data) => {
+                Swal.fire({
+                    icon: 'success',
+                    title: 'تم إضافة العميل بنجاح!',
+                    text: data.message,
+                    confirmButtonText: 'حسنًا'
+                });
+                document.getElementById('addClientForm').reset();
+            })
+            .catch((error) => {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'حدث خطأ!',
+                    text: error.message,
+                    confirmButtonText: 'حسنًا'
+                });
+                console.error('Error:', error);
+            });
+    }
+
+    </script>
+
+    <script>
+    // دالة لجلب الكود التالي للعميل وتعيينه في الحقل
+    function fetchNextClientCode() {
+        fetch('http://localhost:3000/api/next-client-code')
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('فشل في جلب الكود التالي للعميل.');
+                }
+                return response.json();
+            })
+            .then(data => {
+                const nextClientCode = data.nextClientCode; // الكود الجديد (1, 2, 3, ...)
+                document.getElementById('clientCode').value = nextClientCode; // تعيين الكود الجديد في الحقل
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                alert('حدث خطأ أثناء جلب الكود التالي للعميل.');
+            });
+    }
+
+    // استدعاء الدالة عند تحميل الصفحة
+    document.addEventListener('DOMContentLoaded', fetchNextClientCode);
+
+    </script>
+    <script>
+        // تحقق إذا كان المستخدم مسجل الدخول
+        const isLoggedIn = sessionStorage.getItem('loggedIn');
+
+        if (!isLoggedIn) {
+            // إعادة التوجيه إلى صفحة تسجيل الدخول
+            window.location.href = "login.html";
+        }
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+</body>
+
+</html>

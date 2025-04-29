@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+
+<head>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.4.0/jspdf.umd.min.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@200;500&display=swap" rel="stylesheet">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+    <link rel="stylesheet" href="view_invoice_details.css">
+    <title>فاتورة</title>
+
+
+
+
+</head>
+
+<body>
+    <div class="left-panel">
+        <!-- القسم الاول في الايسر: البحث -->
+        <div class="search-section">
+            <label for="search">البحث في الفواتير السابقة:</label>
+            <input type="text" id="searchInvoiceNumber" placeholder="أدخل رقم الفاتورة">
+            <button type="button" onclick="fetchInvoiceByNumber()">بحث</button>
+        </div>
+
+        <!-- الأزرار -->
+        <div class="Control-buttons" id="action-buttons">
+            <button onclick="printInvoice()">طباعة</button>
+                        <a href="view_invoices.html" class="button-bak">
+                <i class="fas fa-arrow-left"></i> الرجوع
+            </a>
+        </div>
+    </div>
+
+    <div class="invoice">
+        <!-- القسم الأول -->
+        <div class="header">
+            <img src="logo.png" alt="لوجو المركز" class="logo">
+            <div class="center">
+                مركز الراعي غالب
+                <br>
+                لصيانه الفتيس الاوتوماتيك
+            </div>
+            <div class="invoice-number">فاتورة رقم: <span id="invoiceNumber"></span>
+                <br>
+                <div id="dateTime">
+                    <div id="currentDate"></div>
+                    <div id="currentTime"></div>
+                </div>
+            </div>
+        </div>
+
+    <!-- القسم الثاني -->
+    <div class="section2">
+        <!-- القسم الأول: الفاتورة موجهة إلى -->
+        <div class="sub-section">
+            <div>الفاتورة موجهة إلى:</div>
+        </div>
+    
+        <!-- القسم الثاني: مدة الضمان -->
+        <div class="sub-section">
+            <div class="form-row">
+                <label>مدة الضمان:</label>
+                <input type="text" id="warrantyPeriod">
+            </div>
+        </div>
+    </div>
+
+        <!-- القسم الثالث -->
+        <div class="client-info">
+            <!-- القسم الأول: معلومات العميل -->
+            <div class="sub-section full-width">
+                <div class="form-row">
+                    <label>اسم العميل:</label>
+                    <input type="text" id="clientName">
+                </div>
+                <div class="form-row">
+                    <label>رقم الهاتف:</label>
+                    <input type="text" id="clientPhone">
+                </div>
+                <div class="form-row">
+                    <label>العنوان:</label>
+                    <input type="text" id="clientAddress">
+                </div>
+                <div class="form-row">
+                    <label>نوع السيارة:</label>
+                    <input type="text" id="clientCarType">
+                </div>
+                <div class="form-row">
+                    <label>رقم الشاسيه:</label>
+                    <input type="text" id="clientChassisNumber">
+                </div>
+            </div>
+
+            <!-- القسم الثاني: الباركود -->
+            <div class="sub-section barcode">
+                <div id="qrcode"></div>
+
+            </div>
+
+            <!-- القسم الثالث: بيانات إضافية -->
+            <div class="sub-section">
+                <div class="form-row">
+                    <label>كود العميل:</label>
+                    <input type="text" id="clientCode" oninput="fetchClientData()">
+                </div>
+                <div class="form-row">
+                    <label>الرصيد السابق:</label>
+                    <input type="text" id="previousBalance" readonly>
+                </div>
+                <div class="form-row">
+                    <label>قيمة الفاتورة:</label>
+                    <input type="text" id="amountDue" readonly>
+                </div>
+                <div class="form-row">
+                    <label>الرصيد الحالي:</label>
+                    <input type="text" id="currentBalance" readonly>
+                </div>
+                <div class="form-row">
+                    <label>المبلغ المستحق:</label>
+                    <input type="text" id="outstandingAmount" readonly>
+                </div>
+            </div>
+        </div>
+
+
+
+        <!-- القسم الرابع -->
+        <div class="section" id="section-six">
+            <table class="table" id="invoiceTable">
+                <colgroup>
+                    <col style="width: 0%;"> <!-- العمود الأول: الرقم -->
+                    <col style="width: 20%;"> <!-- العمود الثاني: الصنف -->
+                    <col style="width: 40%;"> <!-- العمود الثالث: الوصف -->
+                    <col style="width: 12%;"> <!-- العمود الرابع: الكمية -->
+                    <col style="width: 12%;"> <!-- العمود الخامس: السعر -->
+                    <col style="width: 12%;"> <!-- العمود السادس: الإجمالي -->
+                    <col style="width: 10%;"> <!-- العمود السابع: إجراء -->
+                </colgroup>
+                <thead>
+                    <tr>
+                        <th>الرقم</th>
+                        <th>الصنف</th>
+                        <th>الوصف</th>
+                        <th>الكمية</th>
+                        <th>السعر</th>
+                        <th>الإجمالي</th>
+                      
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>1</td>
+                        <td><input type="text" value=" "></td>
+                        <td><input type="text" value=" "></td>
+                        <td><input type="number" value="" class="quantity" oninput="calculateRowTotal(this)"></td>
+                        <td><input type="number" value="" class="price" oninput="calculateRowTotal(this)"></td>
+                        <td class="row-total"></td>
+                        
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+
+
+        <!-- القسم الخامس -->
+        <div class="section" id="section-seven">
+            <!-- القسم الأول: النص -->
+            <div class="sub-section" id="receipt-text">
+                <p>
+                    أستلمت أنا / المقر أدناه البضاعة الموضحة أعلاه من الشركة
+                    في حالة سليمة وخالية من أي عيوب ومسؤلاً عن تخزينها وعرضها طبقا لأصول التخزين
+                    وأقر بمطابقتها ومعاينها معاينة أهل الخبرة وأُقر بمسؤليتي الكاملة عنها بحيث لا تبرأ ذمتي منها
+                    إلا بتسليمها أو سداد قيمتها أو أعد مبدداً وخائناً للأمانة ومختلساً عمداً لأموال الشركة.
+                </p>
+                <h4>اسم المستلم :</h4>
+                التوقيع  :
+
+            </div>
+
+            <!-- القسم الثاني: المدخلات -->
+            <div class="sub-section" id="payment-info">
+                <div class="form-row">
+                    <label>مجموع الوحدات:</label>
+                    <input type="text" id="totalUnits" readonly>
+                </div>
+                <div class="form-row">
+                    <label>الخصم (%):</label>
+                    <input type="number" id="discountPercent" oninput="calculateFinalTotal()" placeholder="0"
+                        style="width: 30%;">
+                    <input type="text" id="discountValue" readonly style="width: 65%; background-color: #f9f9f9;"
+                        placeholder="قيمة الخصم">
+                </div>
+
+
+                <div class="form-row">
+                    <label> ضريبة ق.م (%):</label>
+                    <input type="number" id="vatPercent" oninput="calculateFinalTotal()" placeholder="0"
+                        style="width: 30%;">
+                    <input type="text" id="vatValue" readonly style="width: 65%; background-color: #f9f9f9;"
+                        placeholder="قيمة الضريبة">
+                </div>
+
+                <div class="form-row">
+                    <label>الإجمالي:</label>
+                    <input type="text" id="finalTotal" readonly>
+                </div>
+            </div>
+
+
+
+            
+        </div>
+        <!-- القسم السادس -->
+        <div class="footer" id="section6">
+            <div>المحاسب: _________</div>
+            <div>المراجع: _______</div>
+            <div>الختم</div>
+        </div>
+</div>
+<script src="view_invoice_details.js"></script>
+</body>
+
+
+</html>

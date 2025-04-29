@@ -1,0 +1,995 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+
+<head>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.4.0/jspdf.umd.min.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@200;500&display=swap" rel="stylesheet">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>فاتورة</title>
+ 
+<style>
+     body {
+     font-family: 'Cairo', sans-serif;
+     margin: 0;
+     padding: 0;
+     box-sizing: border-box;
+ }
+
+ .invoice {
+width: 100%;
+  max-width: 1224px;
+  margin: 45px 34px;
+  border: 1px solid #000;
+  padding: 20px;
+ }
+
+ .section {
+     margin-bottom: 20px;
+     padding: 10px;
+     border: 1px solid #ccc;
+     border-radius: 12px;
+     width: 95%;
+     /* تعديل العرض */
+     margin-left: auto;
+     /* توسيط */
+     margin-right: auto;
+     /* توسيط */
+       margin-top: 20px;
+ }
+
+ .header {
+     display: flex;
+     justify-content: space-between;
+     align-items: center;
+       width: 95%;
+ }
+
+ .header .logo {
+     width: 150px;
+ }
+
+ .header .center {
+     font-size: 24px;
+     font-weight: bold;
+     text-align: center;
+     flex-grow: 1;
+     font-family: cairo;
+ }
+
+ .header .invoice-number {
+     font-size: 18px;
+     font-weight: bold;
+       margin: 0 47px;
+ }
+
+ .search-section {
+     text-align: center;
+     margin-top: 10px;
+     margin-bottom: 10px;
+     font-size: 17px;
+     font-weight: bold;
+ }
+
+ .search-section input {
+     padding: 5px;
+     margin-right: 10px;
+     border: 1px solid #ccc;
+     border-radius: 5px;
+       width: 95px;
+ }
+
+ .search-section button {
+  padding: 13px 19px;
+  background-color: #007BFF;
+  color: #fff;
+  border: none;
+  border-radius: 16px;
+  cursor: pointer;
+  margin-top: 6px;
+  margin-left: -9px;
+
+ }
+
+ .search-section button:hover {
+     background-color: #0056b3;
+ }
+
+ .table {
+     width: 100%;
+     border-collapse: collapse;
+ }
+
+ .table th,
+ .table td {
+     border: 1px solid #000;
+     padding: 8px;
+     text-align: center;
+ }
+
+ .table th {
+     background-color: #f4f4f4;
+ }
+
+
+
+ .footer {
+     display: flex;
+     justify-content: space-between;
+     align-items: center;
+     margin-top: 20px;
+    gap: 260px;
+ }
+
+
+ p {
+     text-align: center;
+     font-size: 15px;
+ }
+
+
+ .client-info {
+     display: flex;
+     justify-content: space-between;
+     flex-wrap: wrap;
+       width: 92%;
+       margin-right: 50px;
+ }
+
+ .client-info .sub-section {
+     width: 40%;
+     padding: 10px;
+
+     box-sizing: border-box;
+ }
+
+ .client-info .full-width {
+     width: 39%;
+ }
+
+ .client-info label {
+     display: inline-block;
+     margin-bottom: 5px;
+     font-weight: bold;
+     width: 100%;
+ }
+
+.client-info input {
+width: 210%;
+  padding: 8px;
+  font-size: 16px;
+  margin-bottom: 8px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  box-sizing: border-box;
+  margin-left: 50px;
+    font-weight: bold;
+}
+
+ .barcode img {
+     display: block;
+     margin: 0 auto;
+     max-width: 100%;
+ }
+
+ #section-six {
+  width: 90.5%;
+       /* عرض أصغر ليبقى ضمن الإطار */
+     margin: 0px 36px;
+     /* توسيط داخل الإطار */
+     box-sizing: border-box;
+     /* التأكد من أن الحواف لا تتسبب في تجاوز العرض */
+     border: 0px solid #ffffff;
+ }
+
+ #section-seven {
+     display: flex;
+     /* لجعل الأقسام متجاورة */
+     justify-content: space-between;
+     /* توزيع المساحة بين القسمين */
+     flex-wrap: wrap;
+     /* لجعل الأقسام تتكدس إذا كانت المساحة غير كافية */
+     gap: 20px;
+     /* مسافة بين القسمين */
+     width: 88.5%;
+     border: 1px solid #0c0000;
+     margin-left: 80px;
+ }
+
+ #section-seven .sub-section {
+     width: 48%;
+     /* عرض كل قسم بنسبة متساوية */
+     padding: 10px;
+     /* تحسين التباعد الداخلي */
+     border: 1px solid #ccc;
+     /* إضافة حواف لتحسين الشكل */
+     border-radius: 12px;
+     /* زوايا دائرية */
+     box-sizing: border-box;
+     /* التأكد من أن الحواف جزء من العرض */
+ }
+
+ #section-seven #receipt-text {
+     text-align: justify;
+     /* محاذاة النص ليبدو أكثر تنظيمًا */
+ }
+
+ #section-seven #payment-info input {
+     width: 100%;
+     /* جعل المدخلات تأخذ العرض الكامل */
+     margin-bottom: 10px;
+     /* مسافة بين المدخلات */
+     padding: 5px;
+     /* تحسين التباعد الداخلي */
+     border: 1px solid #ccc;
+     border-radius: 5px;
+     box-sizing: border-box;
+ }
+
+ #payment-info .form-row {
+     display: flex;
+     /* استخدام Flexbox لجعل الحقول بجانب النصوص */
+     align-items: center;
+     /* محاذاة العناصر عموديًا */
+     margin-bottom: 10px;
+     /* مسافة بين كل صف */
+ }
+
+ #payment-info label {
+     width: 30%;
+     /* تخصيص عرض ثابت للتسميات */
+     font-weight: bold;
+     /* جعل النص عريضًا */
+ }
+
+ #payment-info input {
+     width: 70%;
+     /* الحقول تشغل المساحة المتبقية */
+     padding: 5px;
+     border: 1px solid #ccc;
+     border-radius: 5px;
+     box-sizing: border-box;
+ }
+
+ #discountPercent {
+     width: 30%;
+     /* حجم صغير للنسبة */
+     margin-right: 5px;
+ }
+
+ .table td input[type="text"] {
+    width: 101%; /* جعل الإدخال يأخذ عرض العمود */
+    padding: 8px; /* تحسين المسافة الداخلية */
+    font-size: 16px; /* تكبير حجم الخط */
+    box-sizing: border-box; /* لضمان التوافق مع الحواف */
+    font-weight: bold;
+}
+
+.table td input.quantity, .table td input.price {
+    width: 100%; /* تصغير عرض الإدخالات للكمية والسعر */
+    font-size: 14px; /* ضبط حجم الخط */
+}
+.client-info .form-row {
+    display: flex; /* ترتيب الحقول بشكل أفقي */
+    align-items: center; /* محاذاة رأسية للعناصر */
+    margin-bottom: 10px; /* مسافة بين كل صف */
+}
+
+.client-info .barcode {
+display: flex;
+  justify-content: center;
+  align-items: center;
+  border: 1px solid #ccc;
+  padding: 10px;
+  border-radius: 22px;
+  height: 245px;
+  text-align: center;
+  margin: 0;
+    margin-left: 0px;
+  width: 236px;
+  margin-right: -50px;
+}
+
+.client-info .barcode img {
+    max-width: 100%; /* تصغير الصورة إذا كانت كبيرة جدًا */
+    max-height: 100%; /* ضمان عدم تجاوز الصورة حدود القسم */
+    display: block; /* إزالة أي مسافة إضافية حول الصورة */
+}
+
+</style>
+<style>
+  /* الحاوية الجانبية (الأزرار والبحث) */
+.left-panel {
+    width: 13%; /* تخصيص عرض الجانب الأيسر */
+    float: left; /* وضع الحاوية على اليسار */
+    margin-left: 10px; /* مسافة بين الحاوية ومحتوى الصفحة */
+    display: flex; /* استخدام Flexbox */
+    flex-direction: column; /* ترتيب العناصر بشكل عمودي */
+    align-items: center; /* توسيط العناصر أفقيًا */
+    justify-content: center; /* توسيط العناصر عموديًا */
+    height: 100vh; /* جعل الحاوية تمتد على كامل ارتفاع الشاشة */
+     
+}
+
+
+
+/* الأزرار */
+.Control-buttons button,
+.Control-buttons a {
+    display: block; /* عرض الأزرار تحت بعضها */
+    width: 90%; /* عرض الأزرار 90% من الحاوية */
+    height: 50px; /* تحديد ارتفاع ثابت */
+    margin-bottom: 10px; /* مسافة بين الأزرار */
+    font-size: 16px; /* حجم النص */
+    color: #fff; /* لون النص */
+    background-color: #007BFF; /* لون الخلفية */
+    text-align: center; /* محاذاة النص إلى المنتصف */
+    border: none; /* إزالة الحواف */
+    border-radius: 5px; /* زوايا مستديرة */
+    cursor: pointer; /* مؤشر عند التحويم */
+    text-decoration: none; /* إزالة خط الروابط */
+    line-height: 50px; /* محاذاة النص عموديًا */
+      border-radius: 16px;
+}
+
+.Control-buttons button:hover,
+.Control-buttons a:hover {
+    background-color: #0056b3; /* لون أغمق عند التحويم */
+     transform: scale(1.05);
+}
+.Control-buttons{
+     margin-bottom: 20px;
+     padding: 10px;
+     border: 1px solid #ccc;
+     border-radius: 12px;
+  width: 76%;
+  margin-left: 0;
+  margin-right: 0;
+    
+}
+.section2 {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 20px;
+    padding: 10px;
+    border: 1px solid #fffefe;
+    border-radius: 12px;
+     width: 1141px;
+    margin-left: auto;
+      margin-right: 31px;
+   margin-top: 12px;
+  height: 45px;
+}
+
+.section2 .sub-section {
+    width: 45%;
+  padding: 10px;
+   border: 1px solid white;
+  border-radius: 12px;
+  box-sizing: border-box;
+  height: 55px;
+}
+
+.section2 .sub-section label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: bold;
+}
+
+.section2 .sub-section input {
+    width: 100%;
+    padding: 8px;
+    font-size: 16px;
+    margin-bottom: 8px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    box-sizing: border-box;
+}
+.section2 .sub-section .form-row {
+    display: flex; /* لجعل العناصر تظهر بجانب بعضها */
+    align-items: center; /* محاذاة العناصر عموديًا */
+    margin-bottom: 10px; /* مسافة بين الصفوف */
+}
+
+.section2 .sub-section .form-row label {
+    margin-right: 54px; /* مسافة بين النص والحقل */
+    font-weight: bold;
+    width: auto; /* عرض التسمية يتناسب مع النص */
+}
+
+.section2 .sub-section .form-row input {
+  width: 267px;
+  padding: 8px;
+  font-size: 16px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  box-sizing: border-box;
+  margin-right: 27px
+}
+</style>
+
+</head>
+
+<body>
+    <div class="left-panel">
+        <!-- القسم الاول في الايسر: البحث -->
+        <div class="search-section">
+            <label for="search">البحث في الفواتير السابقة:</label>
+            <input type="text" id="searchInvoiceNumber" placeholder="أدخل رقم الفاتورة">
+            <button type="button" onclick="fetchInvoiceByNumber()">بحث</button>
+        </div>
+    
+        <!-- الأزرار -->
+        <div class="Control-buttons" id="action-buttons">
+            <button onclick="saveInvoice()">حفظ</button>
+            <button onclick="clearInvoice()">مسح</button>
+            <a href="invoice.html" class="button-bak">
+                <i class="fas fa-arrow-left"></i> الرجوع
+            </a>
+        </div>
+    </div>
+
+    <div class="invoice">
+        <!-- القسم الأول -->
+        <div class="header">
+            <img src="logo.png" alt="لوجو المركز" class="logo">
+            <div class="center"> 
+            مركز الراعي غالب
+            <br>
+                لصيانه الفتيس الاوتوماتيك</div>
+            <div class="invoice-number">فاتورة رقم: <span id="invoiceNumber"></span>
+            <br>
+            <div id="dateTime">
+                <div id="currentDate"></div>
+                <div id="currentTime"></div>
+            </div>
+            </div>
+        </div>
+
+<!-- القسم الثاني -->
+<div class="section2">
+    <!-- القسم الأول: الفاتورة موجهة إلى -->
+    <div class="sub-section">
+        <div>الفاتورة موجهة إلى:</div>
+    </div>
+
+    <!-- القسم الثاني: مدة الضمان -->
+    <div class="sub-section">
+        <div class="form-row">
+            <label>مدة الضمان:</label>
+            <input type="text" id="warrantyPeriod">
+        </div>
+    </div>
+</div>
+        
+
+              <!-- القسم الثالث -->
+        <div class="client-info">
+            <!-- القسم الأول: معلومات العميل -->
+            <div class="sub-section full-width">
+                <div class="form-row">
+                    <label>اسم العميل:</label>
+                    <input type="text" id="clientName">
+                </div>
+                <div class="form-row">
+                    <label>رقم الهاتف:</label>
+                    <input type="text" id="clientPhone">
+                </div>
+                <div class="form-row">
+                    <label>العنوان:</label>
+                    <input type="text" id="clientAddress">
+                </div>
+                <div class="form-row">
+                    <label>نوع السيارة:</label>
+                    <input type="text" id="clientCarType">
+                </div>
+                <div class="form-row">
+                    <label>رقم الشاسيه:</label>
+                    <input type="text" id="clientChassisNumber">
+                </div>
+            </div>
+        
+            <!-- القسم الثاني: الباركود -->
+            <div class="sub-section barcode">
+                <img src="barcode.php?invoice_id=1001" alt="باركود الفاتورة">
+            </div>
+        
+            <!-- القسم الثالث: بيانات إضافية -->
+            <div class="sub-section">
+                <div class="form-row">
+                    <label>كود العميل:</label>
+                    <input type="text" id="clientCode" oninput="fetchClientData()">
+                </div>
+                <div class="form-row">
+                    <label>الرصيد السابق:</label>
+                    <input type="text" id="previousBalance" readonly>
+                </div>
+                <div class="form-row">
+                    <label>قيمة الفاتورة:</label>
+                    <input type="text" id="amountDue" readonly>
+                </div>
+                <div class="form-row">
+                    <label>الرصيد الحالي:</label>
+                    <input type="text" id="currentBalance" readonly>
+                </div>
+                <div class="form-row">
+                    <label>المبلغ المستحق:</label>
+                    <input type="text" id="outstandingAmount" readonly>
+                </div>
+            </div>
+        </div>
+
+
+
+            <!-- القسم الرابع -->
+        <div class="section" id="section-six">
+            <table class="table" id="invoiceTable">
+                <colgroup>
+                    <col style="width: 0%;"> <!-- العمود الأول: الرقم -->
+                    <col style="width: 20%;"> <!-- العمود الثاني: الصنف -->
+                    <col style="width: 40%;"> <!-- العمود الثالث: الوصف -->
+                    <col style="width: 12%;"> <!-- العمود الرابع: الكمية -->
+                    <col style="width: 12%;"> <!-- العمود الخامس: السعر -->
+                    <col style="width: 12%;"> <!-- العمود السادس: الإجمالي -->
+                    <col style="width: 10%;"> <!-- العمود السابع: إجراء -->
+                </colgroup>
+                <thead>
+                    <tr>
+                        <th>الرقم</th>
+                        <th>الصنف</th>
+                        <th>الوصف</th>
+                        <th>الكمية</th>
+                        <th>السعر</th>
+                        <th>الإجمالي</th>
+                        <th>إجراء</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>1</td>
+                        <td><input type="text" value=" "></td>
+                        <td><input type="text" value=" "></td>
+                        <td><input type="number" value="" class="quantity" oninput="calculateRowTotal(this)"></td>
+                        <td><input type="number" value="" class="price" oninput="calculateRowTotal(this)"></td>
+                        <td class="row-total"></td>
+                        <td><button onclick="removeRow(this)">حذف</button></td>
+                    </tr>
+                </tbody>
+            </table>
+            <button onclick="addRow()">إضافة صف جديد</button>
+        </div>
+        
+
+
+        <!-- القسم الخامس -->
+<div class="section" id="section-seven">
+    <!-- القسم الأول: النص -->
+    <div class="sub-section" id="receipt-text">
+        <p>
+            أستلمت أنا / المقر أدناه البضاعة الموضحة أعلاه من الشركة
+            في حالة سليمة وخالية من أي عيوب ومسؤلاً عن تخزينها وعرضها طبقا لأصول التخزين
+            وأقر بمطابقتها ومعاينها معاينة أهل الخبرة وأُقر بمسؤليتي الكاملة عنها بحيث لا تبرأ ذمتي منها
+            إلا بتسليمها أو سداد قيمتها أو أعد مبدداً وخائناً للأمانة ومختلساً عمداً لأموال الشركة.
+        </p>
+        <h4>اسم المستلم :</h4>التوقيع المستلم :
+     
+    </div>
+
+    <!-- القسم الثاني: المدخلات -->
+<div class="sub-section" id="payment-info">
+    <div class="form-row">
+        <label>مجموع الوحدات:</label>
+        <input type="text" id="totalUnits" readonly>
+    </div>
+<div class="form-row">
+    <label>الخصم (%):</label>
+    <input type="number" id="discountPercent" oninput="calculateFinalTotal()" placeholder="0" style="width: 30%;">
+    <input type="text" id="discountValue" readonly style="width: 65%; background-color: #f9f9f9;"
+        placeholder="قيمة الخصم">
+</div>
+
+
+<div class="form-row">
+    <label> ضريبة ق.م (%):</label>
+    <input type="number" id="vatPercent" oninput="calculateFinalTotal()" placeholder="0" style="width: 30%;">
+    <input type="text" id="vatValue" readonly style="width: 65%; background-color: #f9f9f9;" placeholder="قيمة الضريبة">
+</div>
+
+<div class="form-row">
+    <label>الإجمالي:</label>
+    <input type="text" id="finalTotal" readonly>
+</div>
+</div>
+
+
+
+        <!-- القسم السادس -->
+        <div class="footer">
+            <div>المحاسب: ___________</div>
+            <div>المراجع: ___________</div>
+            <div>الختم</div>
+        </div>
+    </div>
+    
+
+</body>
+
+<!-- حساب جميع انواع عمليات الحسابيه + اضافة صف جديد + حذف الصف الجديد -->
+
+<script>
+    function addRow() {
+        const table = document.getElementById("invoiceTable").getElementsByTagName("tbody")[0];
+
+        // إنشاء صف جديد
+        const newRow = table.insertRow();
+
+        // إنشاء أعمدة الصف الجديد
+        newRow.innerHTML = `
+        <td>${table.rows.length}</td>
+        <td><input type="text" value=""></td>
+        <td><input type="text" value=""></td>
+        <td><input type="number" value="" class="quantity" oninput="calculateRowTotal(this)"></td>
+        <td><input type="number" value="" class="price" oninput="calculateRowTotal(this)"></td>
+        <td class="row-total"></td>
+        <td><button onclick="removeRow(this)">حذف</button></td>
+    `;
+    }
+
+    // حذف صف
+    function removeRow(button) {
+        const row = button.closest("tr");
+        row.remove();
+        calculateTotals();
+    }
+
+    // تحقق إذا كان المستخدم مسجل الدخول
+    const isLoggedIn = sessionStorage.getItem('loggedIn');
+
+    if (!isLoggedIn) {
+        // إعادة التوجيه إلى صفحة تسجيل الدخول
+        window.location.href = "login.html";
+    }
+
+    // حساب الإجمالي لكل صف
+    function calculateRowTotal(element) {
+        const row = element.closest("tr");
+        const quantity = parseFloat(row.querySelector(".quantity").value) || 0; // الكمية
+        const price = parseFloat(row.querySelector(".price").value) || 0; // السعر
+        const total = quantity * price;
+
+        // تحديث إجمالي الصف في العمود السابع
+        row.querySelector(".row-total").textContent = total.toFixed(2);
+
+        // تحديث المجموع الكلي
+        calculateTotals();
+    }
+
+    // حساب مجموع العمود السابع والإجمالي
+    function calculateTotals() {
+        const table = document.getElementById("invoiceTable");
+        const rows = table.querySelectorAll("tbody tr");
+        let totalColumnSeven = 0; // مجموع العمود السابع (الإجماليات لكل الصفوف)
+
+        rows.forEach(row => {
+            const rowTotal = parseFloat(row.querySelector(".row-total").textContent) || 0; // إجمالي الصف
+            totalColumnSeven += rowTotal; // جمع الإجماليات لكل الصفوف
+        });
+
+        // تحديث الحقول
+        document.getElementById("totalUnits").value = totalColumnSeven.toFixed(2); // مجموع العمود السابع
+
+        // تحديث الإجمالي النهائي
+        calculateFinalTotal();
+    }
+
+    // حساب الخصم والضريبة والإجمالي النهائي
+    function calculateFinalTotal() {
+        const totalAmount = parseFloat(document.getElementById("totalUnits").value) || 0;
+
+        // حساب الخصم
+        const discountPercent = parseFloat(document.getElementById("discountPercent").value) || 0;
+        const discountValue = (totalAmount * discountPercent) / 100;
+        document.getElementById("discountValue").value = discountValue.toFixed(2);
+
+        // حساب المبلغ بعد الخصم
+        const discountedAmount = totalAmount - discountValue;
+
+        // حساب الضريبة المضافة
+        const vatPercent = parseFloat(document.getElementById("vatPercent").value) || 0;
+        const vatValue = (discountedAmount * vatPercent) / 100;
+        document.getElementById("vatValue").value = vatValue.toFixed(2);
+
+        // حساب الإجمالي النهائي
+        const finalTotal = discountedAmount + vatValue;
+        document.getElementById("finalTotal").value = finalTotal.toFixed(2);
+        document.getElementById("amountDue").value = finalTotal.toFixed(2);
+
+        // حساب الرصيد الحالي
+        const previousBalance = parseFloat(document.getElementById("previousBalance").value) || 0;
+        let currentBalance = 0;
+
+        if (previousBalance === 0) {
+            currentBalance = 0; // إذا كان الرصيد السابق 0 أو فارغًا، يتم تعيين الرصيد الحالي إلى 0
+        } else {
+            currentBalance = previousBalance - finalTotal;
+        }
+
+        document.getElementById("currentBalance").value = currentBalance.toFixed(2);
+
+        // حساب المبلغ المستحق
+        let outstandingAmount = 0;
+        if (currentBalance === 0) {
+            outstandingAmount = finalTotal; // إذا كان الرصيد الحالي 0، يتم تعيين المبلغ المستحق إلى قيمة الفاتورة
+        } else if (currentBalance < 0) {
+            outstandingAmount = Math.abs(currentBalance); // إذا كان الرصيد الحالي سالبًا، يتم استخدام القيمة المطلقة
+        }
+
+        document.getElementById("outstandingAmount").value = outstandingAmount.toFixed(2);
+    }
+
+</script>
+<!-- كود جلب بيانات العميل الي الفاتورة عن طريق كتابة كود العميل -->
+<script>
+    function fetchClientData() {
+        const clientCode = document.getElementById('clientCode').value; // الحصول على كود العميل
+
+        if (clientCode.trim() === '') return; // إذا كان الحقل فارغًا، لا تفعل شيئًا
+
+        // إرسال طلب إلى الخادم لجلب بيانات العميل
+        fetch(`http://localhost:3000/clients/code/${clientCode}`)
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('لم يتم العثور على العميل.');
+                }
+                return response.json();
+            })
+            .then((client) => {
+                // تحديث الحقول الأخرى ببيانات العميل
+                document.getElementById('clientName').value = client.clientName || '';
+                document.getElementById('clientPhone').value = client.clientPhone || '';
+                document.getElementById('clientAddress').value = client.clientAddress || '';
+                document.getElementById('clientCarType').value = client.carType || '';
+                document.getElementById('clientChassisNumber').value = client.chassisNumber || '';
+                document.getElementById('previousBalance').value = client.underAccount || 0; // الرصيد تحت الحساب
+            })
+            .catch(error => {
+                // عرض رسالة خطأ وإعادة ضبط الحقول
+                alert(error.message);
+                resetClientFields();
+            });
+    }
+
+    // إعادة ضبط الحقول عند مسح كود العميل أو عند حدوث خطأ
+    function resetClientFields() {
+        document.getElementById('clientName').value = '';
+        document.getElementById('clientPhone').value = '';
+        document.getElementById('clientAddress').value = '';
+        document.getElementById('clientCarType').value = '';
+        document.getElementById('clientChassisNumber').value = '';
+                document.getElementById('previousBalance').value = '';
+                document.getElementById('clientCode').value = '';
+
+    } 
+</script>
+
+<script>
+    function saveInvoice() {
+        const invoiceData = {
+            date: new Date().toLocaleDateString(), // التاريخ
+            time: new Date().toLocaleTimeString(), // الوقت
+            clientCode: document.getElementById('clientCode').value,
+            clientName: document.getElementById('clientName').value,
+            clientPhone: document.getElementById('clientPhone').value,
+            clientAddress: document.getElementById('clientAddress').value,
+            carType: document.getElementById('clientCarType').value,
+            chassisNumber: document.getElementById('clientChassisNumber').value,
+            warrantyPeriod: document.getElementById('warrantyPeriod').value, // إضافة مدة الضمان
+            totalUnits: document.getElementById('totalUnits').value,
+            discount: document.getElementById('discountValue').value,
+            discountPercent: document.getElementById('discountPercent').value,
+            vatPercent: document.getElementById('vatPercent').value,
+            vatValue: document.getElementById('vatValue').value,
+            previousBalance: document.getElementById('previousBalance').value,
+            finalTotal: document.getElementById('finalTotal').value,
+            currentBalance: document.getElementById('currentBalance').value,
+            amountDue: document.getElementById('amountDue').value,
+            outstandingAmount: document.getElementById('outstandingAmount').value, // تحقق من وجود القيمة هنا
+            items: [] // بيانات المنتجات
+        };
+
+        // جمع بيانات الأصناف
+        const rows = document.querySelectorAll('#invoiceTable tbody tr');
+        rows.forEach(row => {
+            const item = {
+                itemNumber: row.cells[0].textContent,
+                itemName: row.cells[1].querySelector('input').value,
+                description: row.cells[2].querySelector('input').value,
+                quantity: row.cells[3].querySelector('input').value,
+                price: row.cells[4].querySelector('input').value,
+                total: row.cells[5].textContent
+            };
+            invoiceData.items.push(item);
+        });
+
+        // إرسال البيانات إلى السيرفر
+        fetch('http://localhost:3000/api/invoices', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(invoiceData)
+        })
+            .then(response => response.json())
+            .then(data => {
+                if (data.message) {
+                    alert('تم حفظ الفاتورة بنجاح!');
+                    window.location.href = `view_invoices.html`;
+                } else {
+                    alert('حدث خطأ أثناء حفظ الفاتورة.');
+                }
+            })
+            .catch(error => console.error('Error:', error));
+    }
+
+</script>
+<script>
+
+    function clearInvoice() {
+            // إعادة تعيين حقول العميل
+            document.getElementById('clientName').value = '';
+            document.getElementById('clientPhone').value = '';
+            document.getElementById('clientAddress').value = '';
+            document.getElementById('clientCarType').value = '';
+            document.getElementById('clientChassisNumber').value = '';
+            document.getElementById('warrantyPeriod').value = ''; // مسح مدة الضمان
+            document.getElementById('clientCode').value = '';
+            document.getElementById('previousBalance').value = '';
+            document.getElementById('amountDue').value = '';
+            document.getElementById('currentBalance').value = '';
+            document.getElementById('outstandingAmount').value = '';
+
+            // إعادة تعيين حقول الفاتورة
+            document.getElementById('totalUnits').value = '';
+            document.getElementById('discountPercent').value = '';
+            document.getElementById('discountValue').value = '';
+            document.getElementById('vatPercent').value = '';
+            document.getElementById('vatValue').value = '';
+            document.getElementById('finalTotal').value = '';
+
+            // إعادة تعيين الجدول (حذف جميع الصفوف ما عدا الصف الأول)
+            const table = document.getElementById("invoiceTable").getElementsByTagName("tbody")[0];
+            while (table.rows.length > 1) {
+                table.deleteRow(1); // حذف الصفوف بدءًا من الصف الثاني
+            }
+
+            // إعادة تعيين الصف الأول في الجدول
+            const firstRow = table.rows[0];
+            firstRow.cells[1].querySelector('input').value = ''; // الصنف
+            firstRow.cells[2].querySelector('input').value = ''; // الوصف
+            firstRow.cells[3].querySelector('input').value = ''; // الكمية
+            firstRow.cells[4].querySelector('input').value = ''; // السعر
+            firstRow.cells[5].textContent = ''; // الإجمالي
+
+            // إعادة تعيين رقم الفاتورة (إذا كنت تريد إعادة تعيينه أيضًا)
+            fetch('http://localhost:3000/api/next-invoice-number')
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('Failed to fetch the next invoice number.');
+                    }
+                    return response.json();
+                })
+                .then(data => {
+                    const nextInvoiceNumber = data.nextInvoiceNumber;
+                    document.getElementById('invoiceNumber').textContent = nextInvoiceNumber;
+                })
+                .catch(error => {
+                    console.error('Error fetching next invoice number:', error);
+                    alert('فشل في جلب رقم الفاتورة.');
+                });
+
+            alert('تم مسح جميع البيانات بنجاح!');
+        }
+</script>
+
+<script>
+    function fetchInvoiceByNumber() {
+        const invoiceNumber = document.getElementById('searchInvoiceNumber').value.trim();
+
+        if (!invoiceNumber) {
+            alert('يرجى إدخال رقم الفاتورة.');
+            return;
+        }
+
+        fetch(`http://localhost:3000/api/invoices/${invoiceNumber}`)
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('لم يتم العثور على الفاتورة.');
+                }
+                return response.json();
+            })
+           .then(invoice => {
+                // تعبئة بيانات الفاتورة
+                document.getElementById('invoiceNumber').innerText = invoice.invoice_number;
+                document.getElementById('currentDate').innerText = `التاريخ: ${invoice.date}`;
+                document.getElementById('currentTime').innerText = `الوقت: ${invoice.time}`;
+                document.getElementById('clientName').value = invoice.client_name;
+                document.getElementById('clientPhone').value = invoice.client_phone;
+                document.getElementById('clientAddress').value = invoice.client_address;
+                document.getElementById('clientCarType').value = invoice.car_type;
+                document.getElementById('clientChassisNumber').value = invoice.chassis_number;
+                document.getElementById('warrantyPeriod').value = invoice.warranty_period; // تعيين مدة الضمان
+                document.getElementById('totalUnits').value = invoice.total_units;
+                document.getElementById('discountValue').value = invoice.discount;
+                document.getElementById('clientCode').value = invoice.clientCode || 'غير متوفر';
+                document.getElementById('previousBalance').value = invoice.previousBalance || 0;
+                document.getElementById('amountDue').value = invoice.amount_due;
+                document.getElementById('currentBalance').value = invoice.current_balance;
+                document.getElementById('outstandingAmount').value = invoice.outstanding_amount;
+                document.getElementById('discountPercent').value = invoice.discount_percent;
+                document.getElementById('vatPercent').value = invoice.vat_percent;
+                document.getElementById('vatValue').value = invoice.vat_value;
+                document.getElementById('finalTotal').value = invoice.final_total;
+
+
+                // جلب بيانات الأصناف المرتبطة بالفاتورة
+                return fetch(`http://localhost:3000/api/invoice-items/${invoiceNumber}`);
+            })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('لم يتم العثور على الأصناف.');
+                }
+                return response.json();
+            })
+            .then(items => {
+                const tableBody = document.querySelector('#invoiceTable tbody');
+                tableBody.innerHTML = ''; // مسح الصفوف السابقة
+
+                items.forEach((item, index) => {
+                    const row = document.createElement('tr');
+                    row.innerHTML = `
+                    <td>${index + 1}</td>
+                    <td><input type="text" value="${item.item_name}" /></td>
+                    <td><input type="text" value="${item.description}" /></td>
+                    <td><input type="number" class="quantity" value="${item.quantity}" oninput="calculateRowTotal(this)" /></td>
+                    <td><input type="number" class="price" value="${item.price}" oninput="calculateRowTotal(this)" /></td>
+                    <td class="row-total">${item.total}</td>
+                    <td><button onclick="removeRow(this)">حذف</button></td>
+                `;
+                    tableBody.appendChild(row);
+                });
+
+              
+            })
+            .catch(error => {
+                console.error('خطأ:', error);
+                alert('تعذر العثور على الفاتورة أو بيانات الأصناف.');
+            });
+    }
+
+
+</script>
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+            // جلب رقم الفاتورة الجديد من الخادم
+            fetch('http://localhost:3000/api/next-invoice-number')
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('Failed to fetch the next invoice number.');
+                    }
+                    return response.json();
+                })
+                .then(data => {
+                    const nextInvoiceNumber = data.nextInvoiceNumber;
+                    // عرض رقم الفاتورة في الحقل
+                    document.getElementById('invoiceNumber').textContent = nextInvoiceNumber;
+                })
+                .catch(error => {
+                    console.error('Error fetching next invoice number:', error);
+                    alert('فشل في جلب رقم الفاتورة.');
+                });
+        });
+
+</script>
+</html>
+
+ 
